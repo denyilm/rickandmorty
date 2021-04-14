@@ -1,82 +1,146 @@
 /* eslint-disable no-unused-vars */
 import {
   BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useHistory
 } from 'react-router-dom'
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import Season from './components/Season'
-
+import Seasons from './components/Seasons'
+import Episodes from './components/Episodes'
+import Episode from './components/Episode'
+import Character from './components/Character'
 
 const App = () => {
-  const [url, setUrl] = useState('https://rickandmortyapi.com/api/episode')
-  const [page, setPage] = useState(1)
-  const [episodesReady, setEpisodesReady] = useState(false)
+  const [episodeUrl, setEpisodeUrl] = useState('https://rickandmortyapi.com/api/episode')
+  const [charUrl, setCharUrl] = useState('https://rickandmortyapi.com/api/character')
+  const [episodePage, setEpisodePage] = useState(1)
+  const [charPage, setCharPage] = useState(1)
   const [episodes, setEpisodes] = useState([])
-  const [seasons, setSeasons] = useState({})
-  const [hideLinks, setHideLinks] = useState(false)
+  const [characters, setCharacters] = useState([])
+  const [characterNames, setCharacterNames] = useState([])
+  const [episodePath, setEpisodePath] = useState('/episode')
+  const [characterPath, setCharacterPath] = useState('/character')
+  const [episode, setEpisode] = useState({})
+  const [character, setCharacter] = useState({})
+  const history = useHistory()
 
   //fetch the episodes
   useEffect(() => {
     axios
-      .get(url)
+      .get(episodeUrl)
       .then(response => {
         setEpisodes(episodes.concat(response.data.results))
         if(response.data.info.next){
-          setUrl(response.data.info.next)
-          setPage(page+1)
+          setEpisodeUrl(response.data.info.next)
+          setEpisodePage(episodePage+1)
         }
       })
-  },[page])
+  },[episodePage])
   //
 
-  const style = {
-    padding: 5,
-    fontFamily: 'monospace',
-    fontSize: '14px'
-  }
+  //
+  useEffect(() => {
+    axios
+      .get(charUrl)
+      .then(response => {
+        setCharacters(characters.concat(response.data.results))
+        let names = []
+        response.data.results.forEach(char => {
+          names.push(char.name)
+        })
+        setCharacterNames(characterNames.concat(names))
+        if(response.data.info.next){
+          setCharUrl(response.data.info.next)
+          setCharPage(charPage+1)
+        }
+      })
+  },[charPage])
+  //
 
-  const seasonLinks = {
-    display: hideLinks ? 'none' : ''
-  }
+  //fetch an object if a spesicif episode or character is the initial request
+  useEffect(() => {
+    if(history.location.pathname.includes('episode/')){
+      fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
+        .then(res => {
+          setEpisodePath(history.location.pathname)
+          setEpisode(res)
+        })
+    }
 
-  const homeLink = {
-    display: hideLinks ? '' : 'none'
+    if(history.location.pathname.includes('character')){
+      fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
+        .then(res => {
+          setCharacterPath(history.location.pathname)
+          setCharacter(res)
+        })
+    }
+  },[])
+  //
+
+  //
+  const pickEpisode = (event) => {
+    event.preventDefault()
+    let pickedSpan = event.target.id
+    let path = pickedSpan.split('/').slice(4,6).join('/')
+    setEpisodePath(`/${path}`)
+    history.push(`/${path}`)
+    fetchObj(pickedSpan)
+      .then(res => setEpisode(res))
   }
+  //
+
+  //
+  const pickCharacter = (event) => {
+    event.preventDefault()
+    let pickedSpan = event.target.id
+    let path = pickedSpan.split('/').slice(4,6).join('/')
+    setCharacterPath(`/${path}`)
+    history.push(`/${path}`)
+    fetchObj(pickedSpan)
+      .then(res => setCharacter(res))
+  }
+  //
+
+  //Fetch an obj from the API
+  const fetchObj = (url) => {
+    let req = axios.get(url)
+    return req.then(response => response.data)
+  }
+  //
 
   return (
-    <Router>
-      <h1>Rick and Morty</h1>
-      <div>
-        <div id='season-links-wrapper' style={seasonLinks}>
-          <Link style={style} onClick={() => setHideLinks(true)} to='/season_1'>Season 1</Link>
-          <br></br>
-          <Link style={style} onClick={() => setHideLinks(true)} to='/season_2'>Season 2</Link>
-          <br></br>
-          <Link style={style} onClick={() => setHideLinks(true)} to='/season_3'>Season 3</Link>
-          <br></br>
-          <Link style={style} onClick={() => setHideLinks(true)} to='/season_4'>Season 4</Link>
+    <div>
+      <div id='main-header-container'>
+        <div id='logo-as'>
+          [adult swim]
         </div>
-        <div id='home-link-wrapper' style={homeLink}>
-          <Link style={style} onClick={() => setHideLinks(false)} to="/">home</Link>
+        <div id='header-link-container'>
+          <Link className='header-link' to="/">home</Link>
+          <Link className='header-link' to="/seasons">seasons</Link>
+          <Link className='header-link' to="/episodes">episodes</Link>
         </div>
       </div>
-      <Switch>
-        <Route path='/season_1'>
-          <Season name={'season_1'} episodes={episodes.slice(0,11)}/>
-        </Route>
-        <Route path='/season_2'>
-          <Season name={'season_2'} episodes={episodes.slice(11,21)}/>
-        </Route>
-        <Route path='/season_3'>
-          <Season name={'season_3'} episodes={episodes.slice(21,31)}/>
-        </Route>
-        <Route path='/season_4'>
-          <Season name={'season_4'} episodes={episodes.slice(31,41)}/>
-        </Route>
-      </Switch>
-    </Router>
+      <div id='rm-logo'>
+        <img src='https://media.cdn.adultswim.com/uploads/20200317/203171153217-rick-and-morty.png'></img>
+      </div>
+      <div id='content-container'>
+        <Switch>
+          <Route path='/seasons'>
+            <Seasons episodes={episodes} pick={pickEpisode}/>
+          </Route>
+          <Route path='/episodes'>
+            <Episodes episodes={episodes} pick={pickEpisode}/>
+          </Route>
+          <Route path={episodePath}>
+            <Episode episode={episode} charNames={characterNames} pick={pickCharacter}/>
+          </Route>
+          <Route path={characterPath}>
+            <Character character={character}/>
+          </Route>
+        </Switch>
+      </div>
+    </div>
   )
 }
 
