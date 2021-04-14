@@ -67,7 +67,7 @@ E-Header
 */
 
 /*
-S-rm-logo
+S-homePage
 */
 #rm-logo{
   margin-top: 50px;
@@ -75,13 +75,88 @@ S-rm-logo
   flex-direction: column;
   align-items: center;
 }
+
+#quote-container{
+  width: 315px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#quote-quote{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: lightgreen;
+}
+
+#options-container{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.option-link-container{
+  color: black;
+  margin-top: 2px;
+  margin-bottom: 2px
+}
+
+.option-link-container:hover{
+  cursor: pointer;
+  color: lightgreen !important;
+}
+
+.option-link{
+  color: white;
+}
+
+.option-link:hover{
+  color: lightgreen;
+}
+
+.option-pointer:hover{
+  cursor: 'default';
+  color: black;
+}
+
 /*
-E-rm-logo
+E-homePage
 */
 
 /*
 S-Season
 */
+#main-season-container{
+  margin-top: 50px;
+  border: solid lightgreen 1px;
+  width: 315px;
+  font-size: 12px;
+}
+
+#season-header-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: solid lightgreen 1px;
+  font-size: 14px;
+}
+
+#season-name{
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: lightgreen;
+}
+
+#season-episodes-container{
+  margin-left: 6px;
+}
+
 #season-links-container{
   display: flex;
   flex-direction: column;
@@ -103,6 +178,7 @@ S-Season
   text-decoration: none;
   color: white;
   font-family: 'VT323', monospace;
+  font-size: 16px;
 }
 
 .season-link:hover{
@@ -111,7 +187,29 @@ S-Season
   font-family: 'VT323', monospace;
 }
 
+.episode-link-container{
+  color: black;
+  margin-top: 2px;
+  margin-bottom: 2px
+}
 
+.episode-link{
+  color: white;
+}
+
+.episode-link:hover{
+  color: lightgreen;
+}
+
+.episode-link-container:hover {
+  cursor: pointer;
+  color: lightgreen !important;
+}
+
+.episode-pointer:hover{
+  cursor: 'default';
+  color: black;
+}
 /*
 E-Season
 */

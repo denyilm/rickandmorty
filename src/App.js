@@ -10,6 +10,7 @@ import Seasons from './components/Seasons'
 import Episodes from './components/Episodes'
 import Episode from './components/Episode'
 import Character from './components/Character'
+import getRandomQuotes from './functions/getRandomQuote'
 
 const App = () => {
   const [episodeUrl, setEpisodeUrl] = useState('https://rickandmortyapi.com/api/episode')
@@ -23,6 +24,7 @@ const App = () => {
   const [characterPath, setCharacterPath] = useState('/character')
   const [episode, setEpisode] = useState({})
   const [character, setCharacter] = useState({})
+  const [quote, setQuote] = useState({})
   const history = useHistory()
 
   //fetch the episodes
@@ -78,6 +80,11 @@ const App = () => {
   },[])
   //
 
+  useEffect(() => {
+    let randomQuote = getRandomQuotes()
+    setQuote(randomQuote)
+  },[])
+
   //
   const pickEpisode = (event) => {
     event.preventDefault()
@@ -109,6 +116,12 @@ const App = () => {
   }
   //
 
+  const goTo = (event) => {
+    event.preventDefault()
+    let path = event.target.id
+    history.push(`/${path}`)
+  }
+
   return (
     <div>
       <div id='main-header-container'>
@@ -122,7 +135,7 @@ const App = () => {
         </div>
       </div>
       <div id='rm-logo'>
-        <img src='https://media.cdn.adultswim.com/uploads/20200317/203171153217-rick-and-morty.png'></img>
+        <img src='rick-and-morty.png'></img>
       </div>
       <div id='content-container'>
         <Switch>
@@ -137,6 +150,21 @@ const App = () => {
           </Route>
           <Route path={characterPath}>
             <Character character={character}/>
+          </Route>
+          <Route path='/'>
+            <div id='quote-container'>
+              <span id='quote-quote'>{`${quote.quote}`}</span>
+            </div>
+            <div id='options-container'>
+              <div className='option-link-container'>
+                <span className='option-pointer'>{'> '}</span>
+                <span className='option-link' onClick={goTo} id='seasons'>seasons</span>
+              </div>
+              <div className='option-link-container'>
+                <span className='option-pointer'>{'> '}</span>
+                <span className='option-link' onClick={goTo} id='episodes'>all episodes</span>
+              </div>
+            </div>
           </Route>
         </Switch>
       </div>

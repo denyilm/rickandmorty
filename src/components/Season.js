@@ -6,15 +6,14 @@ const Season = (props) => {
   return (
     <div id='main-season-container'>
       <div id='season-header-container'>
-        <span>------------------- </span>
-        <span>{`<${props.name}/>`}</span>
+        <span id='season-name'>{`> ${props.name}`}</span>
       </div>
       <div id='season-episodes-container'>
         {
           props.episodes.map(episode =>
-            <div key={episode.episode}>
+            <div key={episode.episode} className='episode-link-container'>
               <span className='episode-pointer'>{'> '}</span>
-              <span className='season-name' id={episode.url} onClick={props.pick}>{episode.name}</span>
+              <span className='episode-link' id={episode.url} onClick={props.pick}>{`${episode.episode.substring(4,6)} ${episode.name}`}</span>
             </div>
           )
         }
