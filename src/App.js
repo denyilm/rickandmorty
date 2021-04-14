@@ -135,7 +135,7 @@ const App = () => {
         </div>
       </div>
       <div id='rm-logo'>
-        <img src='rick-and-morty.png'></img>
+        <img src='/rick-and-morty.png'></img>
       </div>
       <div id='content-container'>
         <Switch>
@@ -156,6 +156,10 @@ const App = () => {
               <span id='quote-quote'>{`${quote.quote}`}</span>
             </div>
             <div id='options-container'>
+              <div id='options-header-container'>
+                <span style={{ color: 'black' }}>{'> '}</span>
+                <span id='options-header'>options</span>
+              </div>
               <div className='option-link-container'>
                 <span className='option-pointer'>{'> '}</span>
                 <span className='option-link' onClick={goTo} id='seasons'>seasons</span>

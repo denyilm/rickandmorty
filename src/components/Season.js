@@ -6,7 +6,7 @@ const Season = (props) => {
   return (
     <div id='main-season-container'>
       <div id='season-header-container'>
-        <span id='season-name'>{`> ${props.name}`}</span>
+        <span id='season-name'>{`${props.name}`}</span>
       </div>
       <div id='season-episodes-container'>
         {

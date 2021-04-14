@@ -14,6 +14,10 @@ const Seasons = (props) => {
     <div>
       <div id='season-links-wrapper'>
         <div id='season-links-container'>
+          <div id='seasons-header-container'>
+            <span style={{ color: 'black' }}>{'> '}</span>
+            <span id='seasons-header'>{' Seasons '}</span>
+          </div>
           <div className='season-link-container'>
             <span className='season-pointer'>{'> '}</span>
             <Link className='season-link' to='/seasons/1'>Season 01</Link>

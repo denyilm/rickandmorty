@@ -92,6 +92,15 @@ S-homePage
   color: lightgreen;
 }
 
+#options-header-container{
+  margin-bottom: 5px;
+}
+
+#options-header{
+  color: lightgreen;
+  border-bottom: solid 1px lightgreen;
+}
+
 #options-container{
   margin-top: 50px;
   display: flex;
@@ -131,6 +140,16 @@ E-homePage
 /*
 S-Season
 */
+#seasons-header-container{
+  margin-bottom: 5px;
+}
+
+#seasons-header{
+  color: lightgreen;
+  border-bottom: solid 1px lightgreen;
+  font-size: 16px;
+}
+
 #main-season-container{
   margin-top: 50px;
   border: solid lightgreen 1px;
@@ -190,7 +209,8 @@ S-Season
 .episode-link-container{
   color: black;
   margin-top: 2px;
-  margin-bottom: 2px
+  margin-bottom: 2px;
+  width: fit-content;
 }
 
 .episode-link{
