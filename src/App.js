@@ -11,6 +11,7 @@ import Episodes from './components/Episodes'
 import Episode from './components/Episode'
 import Character from './components/Character'
 import getRandomQuotes from './functions/getRandomQuote'
+import { IoEarth } from 'react-icons/io5'
 
 const App = () => {
   const [episodeUrl, setEpisodeUrl] = useState('https://rickandmortyapi.com/api/episode')
@@ -25,6 +26,7 @@ const App = () => {
   const [episode, setEpisode] = useState({})
   const [character, setCharacter] = useState({})
   const [quote, setQuote] = useState({})
+  const [showHeaderLinks, setShowHeaderLinks] = useState(false)
   const history = useHistory()
 
   //fetch the episodes
@@ -60,7 +62,7 @@ const App = () => {
   },[charPage])
   //
 
-  //fetch an object if a spesicif episode or character is the initial request
+  //fetch an object if the request is a specific episode or character
   useEffect(() => {
     if(history.location.pathname.includes('episode/')){
       fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
@@ -80,10 +82,19 @@ const App = () => {
   },[])
   //
 
+  //Fetch an obj from the API
+  const fetchObj = (url) => {
+    let req = axios.get(url)
+    return req.then(response => response.data)
+  }
+  //
+
+  //get random quote
   useEffect(() => {
     let randomQuote = getRandomQuotes()
     setQuote(randomQuote)
   },[])
+  //
 
   //
   const pickEpisode = (event) => {
@@ -109,33 +120,47 @@ const App = () => {
   }
   //
 
-  //Fetch an obj from the API
-  const fetchObj = (url) => {
-    let req = axios.get(url)
-    return req.then(response => response.data)
-  }
   //
-
   const goTo = (event) => {
     event.preventDefault()
+    setShowHeaderLinks(false)
     let path = event.target.id
     history.push(`/${path}`)
   }
+  //
+
+  //
+  const handleLogo = (event) => {
+    event.preventDefault()
+    setShowHeaderLinks(false)
+    history.push('/')
+    let newRandomQuote = getRandomQuotes()
+    setQuote(newRandomQuote)
+  }
+  //
+
 
   return (
-    <div>
+    <div id='main-container'>
       <div id='main-header-container'>
         <div id='logo-as'>
           [adult swim]
         </div>
-        <div id='header-link-container'>
-          <Link className='header-link' to="/">home</Link>
-          <Link className='header-link' to="/seasons">seasons</Link>
-          <Link className='header-link' to="/episodes">episodes</Link>
+        <div id='header-link-nav' title='navigate'>
+          <span
+            onClick={() => setShowHeaderLinks(!showHeaderLinks)}
+            style={{ color: showHeaderLinks ? 'lightgreen' : 'white' }}>
+            <IoEarth size={25}/>
+          </span>
+          <div id='header-links-container' style={{ display: showHeaderLinks ? '' : 'none' }}>
+            <Link className='header-link' to="/">home</Link>
+            <Link className='header-link' to="/seasons">seasons</Link>
+            <Link className='header-link' to="/episodes">episodes</Link>
+          </div>
         </div>
       </div>
-      <div id='rm-logo'>
-        <img src='/rick-and-morty.png'></img>
+      <div id='rm-logo-container' onClick={handleLogo} title='Rick and Morty logo, to home'>
+        <img src='/rick-and-morty.png' id='rm-logo'></img>
       </div>
       <div id='content-container'>
         <Switch>

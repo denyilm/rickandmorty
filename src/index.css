@@ -13,9 +13,14 @@ code {
   font-family: 'VT323', monospace;
 }
 
-h1 {
-  font-family: 'VT323', monospace;
+
+#main-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+
 
 /*
 S-Header
@@ -32,22 +37,38 @@ S-Header
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background: black;
   width: 100%;
   position: fixed;
   top: 0;
   font-size: 15px;
 }
 
-#header-link-container {
-  margin-right: 20px;
-  width: 300px;
+#header-link-nav{
+  margin-right: 40px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  align-items: center;
+}
+
+#header-link-nav:hover{
+  cursor: pointer;
+}
+
+#header-links-container {
+  width: 100px;
+  border: solid lightgreen 1px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 2;
+  margin-left: -40px;
+  margin-top: 90px;
 }
 
 .header-link{
+  margin-bottom: 2px;
   text-decoration: none;
   color: white;
   width: auto;
@@ -60,7 +81,7 @@ S-Header
 
 .header-link:hover {
   cursor: pointer;
-  text-decoration: underline;
+  color: lightgreen;
 }
 /*
 E-Header
@@ -69,11 +90,20 @@ E-Header
 /*
 S-homePage
 */
-#rm-logo{
-  margin-top: 50px;
+#rm-logo-container{
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: auto;
+}
+
+#rm-logo-container:hover{
+  cursor: pointer;
+}
+
+#rm-logo{
+  width: 500px;
 }
 
 #quote-container{
@@ -132,7 +162,6 @@ S-homePage
   cursor: 'default';
   color: black;
 }
-
 /*
 E-homePage
 */
@@ -152,6 +181,7 @@ S-Season
 
 #main-season-container{
   margin-top: 50px;
+  margin-bottom: 100px;
   border: solid lightgreen 1px;
   width: 315px;
   font-size: 12px;
@@ -249,15 +279,100 @@ E-content-container
 /*
 S-episode
 */
-.char-span{
+#main-episode-info-container{
+  margin-top: 50px;
+  margin-bottom: 10px;
+  width: 315px;
+  font-size: 16px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#episode-header-container{
+  margin-bottom: 5px;
+}
+
+#episode-header{
+  border-bottom: solid 1px lightgreen;
+  color: lightgreen;
+}
+
+#episode-info-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.episode-info{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+}
+
+#episode-name-span{
+  text-align: center;
+  width: auto;
+}
+
+#main-mini-char-container{
+  margin-top: 50px;
+  margin-bottom: 100px;
+  border: solid lightgreen 1px;
+  width: 315px;
+  font-size: 14px;
+}
+
+#mini-char-header-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-bottom: solid 1px lightgreen;
+  color: lightgreen;
+}
+
+#mini-char-header{
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.char-span{
+  display: flex;
+  flex-direction: row;
   border: solid black 1px;
+  height: 48px;
 }
 
 .char-span:hover{
   cursor: pointer;
-  border: solid white 1px;
+  color: lightgreen;
+  background-color: rgb(63, 59, 59);
+}
+
+.char-mini-img-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.mini-char-img{
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+}
+
+.char-mini-info-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
 }
 /*
 E-episode
@@ -266,20 +381,89 @@ E-episode
 /*
 S-Character
 */
-.main-char-container{
-  width: auto;
+#main-char-container{
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 315px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 1px lightgreen;
+}
+
+#char-img-container{
+  width: 315px;
   display: flex;
   flex-direction: row;
+  justify-content: center;
+}
+
+#char-img{
+  margin-top: 10px;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+}
+
+#char-status-span{
+  margin-left: 190px;
+  margin-top: -27px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 27px;
+  border-radius: 100%;
+}
+
+#char-name-span{
+  border-bottom: solid 1px lightgreen;
 }
 
 .char-info-container{
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
+  width: auto;
+}
+
+#char-name-span{
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .char-info{
-  margin: 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
 }
+
+.char-info-icon-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+
 /*
 E-Character
 */
+
+
+@media (max-width: 500px) {
+  #rm-logo{
+    width: 315px;
+  }
+
+  #quote-container{
+    margin-top: 10px;
+  }
+
+  #quote-quote{
+    font-size: 14px;
+  }
+}

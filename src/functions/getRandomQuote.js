@@ -13,11 +13,6 @@ const quotes = [
     'character':'Rick'
   },
   {
-    // eslint-disable-next-line quotes
-    'quote': "Life is effort and I'll stop when I die!",
-    'character':'Jerry'
-  },
-  {
     'quote':'...Welcome To The Club, Pal.',
     'character':'Rick'
   },
@@ -27,7 +22,7 @@ const quotes = [
   },
   {
     // eslint-disable-next-line quotes
-    'quote': "It's time to get schwifty",
+    'quote': "It's time to get schwifty!",
     'character':'Morty'
   }
 ]
