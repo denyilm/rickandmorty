@@ -1,20 +1,25 @@
 /* eslint-disable no-unused-vars */
+//Packages
 import {
   BrowserRouter as Router,
   Switch, Route, Link, useHistory
 } from 'react-router-dom'
-
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+//Components
+import Header from './components/Header'
+import Logo from './components/Logo'
+import Home from './components/Home'
 import Seasons from './components/Seasons'
 import Episodes from './components/Episodes'
 import Episode from './components/Episode'
 import Character from './components/Character'
+//Functions
 import getRandomQuotes from './functions/getRandomQuote'
-import { IoEarth } from 'react-icons/io5'
 
 const App = () => {
-  const [episodeUrl, setEpisodeUrl] = useState('https://rickandmortyapi.com/api/episode')
+  const [episodesUrl, setEpisodesUrl] = useState('https://rickandmortyapi.com/api/episode')
+  const [episodeId, setEpisodeId] = useState(null)
   const [charUrl, setCharUrl] = useState('https://rickandmortyapi.com/api/character')
   const [episodePage, setEpisodePage] = useState(1)
   const [charPage, setCharPage] = useState(1)
@@ -29,14 +34,29 @@ const App = () => {
   const [showHeaderLinks, setShowHeaderLinks] = useState(false)
   const history = useHistory()
 
+  //handle goBack
+  window.addEventListener('popstate',(event) => {
+    event.preventDefault()
+    if(history.location.pathname.includes('episode/')){
+      setEpisodePath(history.location.pathname)
+    }
+  })
+  //
+
+  //Fetch an obj from the API
+  const fetchObj = (url) => {
+    let req = axios.get(url)
+    return req.then(response => response.data)
+  }
+  //
+
   //fetch the episodes
   useEffect(() => {
-    axios
-      .get(episodeUrl)
-      .then(response => {
-        setEpisodes(episodes.concat(response.data.results))
-        if(response.data.info.next){
-          setEpisodeUrl(response.data.info.next)
+    fetchObj(episodesUrl)
+      .then(data => {
+        setEpisodes(episodes.concat(data.results))
+        if(data.info.next){
+          setEpisodesUrl(data.info.next)
           setEpisodePage(episodePage+1)
         }
       })
@@ -69,6 +89,7 @@ const App = () => {
         .then(res => {
           setEpisodePath(history.location.pathname)
           setEpisode(res)
+          setEpisodeId(res.id)
         })
     }
 
@@ -79,14 +100,7 @@ const App = () => {
           setCharacter(res)
         })
     }
-  },[])
-  //
-
-  //Fetch an obj from the API
-  const fetchObj = (url) => {
-    let req = axios.get(url)
-    return req.then(response => response.data)
-  }
+  },[episodePath])
   //
 
   //get random quote
@@ -97,6 +111,10 @@ const App = () => {
   //
 
   //
+  const handleNav = () => setShowHeaderLinks(!showHeaderLinks)
+  //
+
+  //
   const pickEpisode = (event) => {
     event.preventDefault()
     let pickedSpan = event.target.id
@@ -104,7 +122,9 @@ const App = () => {
     setEpisodePath(`/${path}`)
     history.push(`/${path}`)
     fetchObj(pickedSpan)
-      .then(res => setEpisode(res))
+      .then(res => {
+        setEpisodeId(res.id)
+        setEpisode(res)})
   }
   //
 
@@ -139,29 +159,56 @@ const App = () => {
   }
   //
 
+  //
+  const changeEpisodeUrl = (url, newId) => {
+    let urlArr = url.split('/')
+    urlArr.splice(2,1,newId)
+    let newUrl = urlArr.join('/')
+    return newUrl
+  }
+  //
+
+  //
+  const handleNextEpisode = (event) => {
+    event.preventDefault()
+    let url = episodePath
+    if(episodeId < episodes.length){
+      setEpisodeId(episodeId+1)
+      url = changeEpisodeUrl(episodePath, episodeId+1)
+      fetchObj(`https://rickandmortyapi.com/api/${url}`)
+        .then(res => {
+          setEpisodeId(res.id)
+          setEpisode(res)
+          history.push(`${url}`)
+          setEpisodePath(`${url}`)
+        })
+    }
+  }
+  //
+
+  //
+  const handlePreviousEpisode = (event) => {
+    event.preventDefault()
+    let url = episodePath
+    if(episodeId > 1){
+      setEpisodeId(episodeId-1)
+      url = changeEpisodeUrl(episodePath, episodeId-1)
+      fetchObj(`https://rickandmortyapi.com/api/${url}`)
+        .then(res => {
+          setEpisodeId(res.id)
+          setEpisode(res)
+          history.push(`${url}`)
+          setEpisodePath(`${url}`)
+        })
+    }
+  }
+  //
+
 
   return (
     <div id='main-container'>
-      <div id='main-header-container'>
-        <div id='logo-as'>
-          [adult swim]
-        </div>
-        <div id='header-link-nav' title='navigate'>
-          <span
-            onClick={() => setShowHeaderLinks(!showHeaderLinks)}
-            style={{ color: showHeaderLinks ? 'lightgreen' : 'white' }}>
-            <IoEarth size={25}/>
-          </span>
-          <div id='header-links-container' style={{ display: showHeaderLinks ? '' : 'none' }}>
-            <Link className='header-link' to="/">home</Link>
-            <Link className='header-link' to="/seasons">seasons</Link>
-            <Link className='header-link' to="/episodes">episodes</Link>
-          </div>
-        </div>
-      </div>
-      <div id='rm-logo-container' onClick={handleLogo} title='Rick and Morty logo, to home'>
-        <img src='/rick-and-morty.png' id='rm-logo'></img>
-      </div>
+      <Header handleNav={handleNav} showHeaderLinks={showHeaderLinks}/>
+      <Logo handleLogo={handleLogo}/>
       <div id='content-container'>
         <Switch>
           <Route path='/seasons'>
@@ -171,29 +218,13 @@ const App = () => {
             <Episodes episodes={episodes} pick={pickEpisode}/>
           </Route>
           <Route path={episodePath}>
-            <Episode episode={episode} charNames={characterNames} pick={pickCharacter}/>
+            <Episode episode={episode} charNames={characterNames} pick={pickCharacter} handleNext={handleNextEpisode} handlePrevious={handlePreviousEpisode}/>
           </Route>
           <Route path={characterPath}>
             <Character character={character}/>
           </Route>
           <Route path='/'>
-            <div id='quote-container'>
-              <span id='quote-quote'>{`${quote.quote}`}</span>
-            </div>
-            <div id='options-container'>
-              <div id='options-header-container'>
-                <span style={{ color: 'black' }}>{'> '}</span>
-                <span id='options-header'>options</span>
-              </div>
-              <div className='option-link-container'>
-                <span className='option-pointer'>{'> '}</span>
-                <span className='option-link' onClick={goTo} id='seasons'>seasons</span>
-              </div>
-              <div className='option-link-container'>
-                <span className='option-pointer'>{'> '}</span>
-                <span className='option-link' onClick={goTo} id='episodes'>all episodes</span>
-              </div>
-            </div>
+            <Home quote={quote} goTo={goTo}/>
           </Route>
         </Switch>
       </div>

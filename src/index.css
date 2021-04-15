@@ -299,6 +299,14 @@ S-episode
   color: lightgreen;
 }
 
+.next-prev-button{
+  color: lightgreen
+}
+
+.next-prev-button:hover{
+  cursor: pointer;
+}
+
 #episode-info-container{
   display: flex;
   flex-direction: column;

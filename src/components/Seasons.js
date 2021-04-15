@@ -7,8 +7,6 @@ import React, { useEffect, useState } from 'react'
 import Season from './Season'
 
 const Seasons = (props) => {
-  const [hideLinks, setHideLinks] = useState(false)
-  const [hover, setHover] = useState(false)
 
   return (
     <div>
