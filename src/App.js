@@ -32,6 +32,8 @@ const App = () => {
   const [character, setCharacter] = useState({})
   const [quote, setQuote] = useState({})
   const [showHeaderLinks, setShowHeaderLinks] = useState(false)
+  const [episodesFetched, setEpisodesFetched] = useState(false)
+  const [charsFetched, setCharsFetched] = useState(false)
   const history = useHistory()
 
   //handle goBack
@@ -58,6 +60,8 @@ const App = () => {
         if(data.info.next){
           setEpisodesUrl(data.info.next)
           setEpisodePage(episodePage+1)
+        } else {
+          setEpisodesFetched(true)
         }
       })
   },[episodePage])
@@ -77,6 +81,8 @@ const App = () => {
         if(response.data.info.next){
           setCharUrl(response.data.info.next)
           setCharPage(charPage+1)
+        } else {
+          setCharsFetched(true)
         }
       })
   },[charPage])
@@ -218,13 +224,23 @@ const App = () => {
             <Episodes episodes={episodes} pick={pickEpisode}/>
           </Route>
           <Route path={episodePath}>
-            <Episode episode={episode} charNames={characterNames} pick={pickCharacter} handleNext={handleNextEpisode} handlePrevious={handlePreviousEpisode}/>
+            <Episode
+              episode={episode}
+              charNames={characterNames}
+              pick={pickCharacter}
+              handleNext={handleNextEpisode}
+              handlePrevious={handlePreviousEpisode}
+            />
           </Route>
           <Route path={characterPath}>
             <Character character={character}/>
           </Route>
           <Route path='/'>
-            <Home quote={quote} goTo={goTo}/>
+            <Home
+              quote={quote}
+              goTo={goTo}
+              fetched={episodesFetched && charsFetched}
+            />
           </Route>
         </Switch>
       </div>

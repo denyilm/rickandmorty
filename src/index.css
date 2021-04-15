@@ -108,6 +108,7 @@ S-homePage
 
 #quote-container{
   width: 315px;
+  height: 30px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -277,7 +278,7 @@ E-content-container
 */
 
 /*
-S-episode
+S-Episode
 */
 #main-episode-info-container{
   margin-top: 50px;
@@ -348,14 +349,14 @@ S-episode
   margin-bottom: 2px;
 }
 
-.char-span{
+.mini-char-span{
   display: flex;
   flex-direction: row;
   border: solid black 1px;
   height: 48px;
 }
 
-.char-span:hover{
+.mini-char-span:hover{
   cursor: pointer;
   color: lightgreen;
   background-color: rgb(63, 59, 59);
@@ -383,7 +384,7 @@ S-episode
   margin-left: 10px;
 }
 /*
-E-episode
+E-Episode
 */
 
 /*
@@ -426,6 +427,7 @@ S-Character
 
 #char-name-span{
   border-bottom: solid 1px lightgreen;
+  text-align: center;
 }
 
 .char-info-container{
@@ -455,8 +457,6 @@ S-Character
   justify-content: center;
   margin-right: 10px;
 }
-
-
 /*
 E-Character
 */
