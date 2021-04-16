@@ -1,4 +1,4 @@
-# How to Run the app
+# How to run the app
 
 ### open a directory where you want to store the app and run: 
 

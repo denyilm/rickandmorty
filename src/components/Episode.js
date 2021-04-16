@@ -60,10 +60,10 @@ const Episode = (props) => {
                 ?
                 charUrls.map(url =>
                   <div key={url.split('/').reverse()[0]} className='mini-char-span' id={url} onClick={props.pick}>
-                    <div className='char-mini-img-container'>
+                    <div className='char-mini-img-container' id={url}>
                       <img className='mini-char-img' id={url} onClick={props.pick} src={getAvatarUrl(url)} ></img>
                     </div>
-                    <div className='char-mini-info-container'>
+                    <div className='char-mini-info-container' id={url}>
                       <span className='char-name' id={url} onClick={props.pick}>{props.charNames[url.split('/').reverse()[0]-1]}</span>
                     </div>
                   </div>)
