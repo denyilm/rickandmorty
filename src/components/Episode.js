@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-unused-vars */
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 const Episode = (props) => {
@@ -30,13 +29,18 @@ const Episode = (props) => {
         <div>...loading</div>
         :
         <div id='main-episode-container'>
+          <div id='episode-season-goback'>
+            <span id={`seasons/${props.episode.episode.charAt(2)}`} onClick={props.goTo}>
+              {`go to Season 0${props.episode.episode.charAt(2)}`}
+            </span>
+          </div>
           <div id='main-episode-info-container'>
             <div id='episode-header-container'>
-              <span onClick={props.handlePrevious} className='next-prev-button'>{'< '}</span>
+              <span onClick={props.handlePrevious} className='next-prev-button' title='previous episode'>{'< '}</span>
               <span id='episode-header'>
                 {`Season ${props.episode.episode ? props.episode.episode.substring(1,3) : null} `}
                 {`/ Episode ${props.episode.episode ? props.episode.episode.substring(4,6) : null}`}</span>
-              <span onClick={props.handleNext} className='next-prev-button'>{' >'}</span>
+              <span onClick={props.handleNext} className='next-prev-button' title='next episode'>{' >'}</span>
             </div>
             <div id='episode-info-container'>
               <div className='episode-info'>
@@ -49,7 +53,7 @@ const Episode = (props) => {
           </div>
           <div id='main-mini-char-container'>
             <div id='mini-char-header-container'>
-              <span id='mini-char-header'>characters</span>
+              <span id='mini-char-header'>{`characters / ${charUrls ? charUrls.length : null}`}</span>
             </div>
             <div id='mini-char-container'>
               {charUrls
@@ -70,7 +74,6 @@ const Episode = (props) => {
         </div>
       }
     </div>
-
   )
 }
 

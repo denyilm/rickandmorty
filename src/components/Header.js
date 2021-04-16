@@ -9,7 +9,7 @@ import { IoEarth } from 'react-icons/io5'
 const Header = (props) => {
   return (
     <div id='main-header-container'>
-      <div id='logo-as'>
+      <div id='logo-as' title='adult swim logo'>
           [adult swim]
       </div>
       <div id='header-link-nav' title='navigate'>

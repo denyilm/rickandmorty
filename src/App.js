@@ -20,7 +20,7 @@ import getRandomQuotes from './functions/getRandomQuote'
 const App = () => {
   const [episodesUrl, setEpisodesUrl] = useState('https://rickandmortyapi.com/api/episode')
   const [episodeId, setEpisodeId] = useState(null)
-  const [charUrl, setCharUrl] = useState('https://rickandmortyapi.com/api/character')
+  const [charsUrl, setCharsUrl] = useState('https://rickandmortyapi.com/api/character')
   const [episodePage, setEpisodePage] = useState(1)
   const [charPage, setCharPage] = useState(1)
   const [episodes, setEpisodes] = useState([])
@@ -67,19 +67,18 @@ const App = () => {
   },[episodePage])
   //
 
-  //
+  //fetch the characters
   useEffect(() => {
-    axios
-      .get(charUrl)
-      .then(response => {
-        setCharacters(characters.concat(response.data.results))
+    fetchObj(charsUrl)
+      .then(data => {
+        setCharacters(characters.concat(data.results))
         let names = []
-        response.data.results.forEach(char => {
+        data.results.forEach(char => {
           names.push(char.name)
         })
         setCharacterNames(characterNames.concat(names))
-        if(response.data.info.next){
-          setCharUrl(response.data.info.next)
+        if(data.info.next){
+          setCharsUrl(data.info.next)
           setCharPage(charPage+1)
         } else {
           setCharsFetched(true)
@@ -92,18 +91,18 @@ const App = () => {
   useEffect(() => {
     if(history.location.pathname.includes('episode/')){
       fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
-        .then(res => {
+        .then(data => {
           setEpisodePath(history.location.pathname)
-          setEpisode(res)
-          setEpisodeId(res.id)
+          setEpisode(data)
+          setEpisodeId(data.id)
         })
     }
 
     if(history.location.pathname.includes('character')){
       fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
-        .then(res => {
+        .then(data => {
           setCharacterPath(history.location.pathname)
-          setCharacter(res)
+          setCharacter(data)
         })
     }
   },[episodePath])
@@ -118,6 +117,16 @@ const App = () => {
 
   //
   const handleNav = () => setShowHeaderLinks(!showHeaderLinks)
+  //
+
+  //
+  const handleLogo = (event) => {
+    event.preventDefault()
+    setShowHeaderLinks(false)
+    history.push('/')
+    let newRandomQuote = getRandomQuotes()
+    setQuote(newRandomQuote)
+  }
   //
 
   //
@@ -152,16 +161,6 @@ const App = () => {
     setShowHeaderLinks(false)
     let path = event.target.id
     history.push(`/${path}`)
-  }
-  //
-
-  //
-  const handleLogo = (event) => {
-    event.preventDefault()
-    setShowHeaderLinks(false)
-    history.push('/')
-    let newRandomQuote = getRandomQuotes()
-    setQuote(newRandomQuote)
   }
   //
 
@@ -230,6 +229,7 @@ const App = () => {
               pick={pickCharacter}
               handleNext={handleNextEpisode}
               handlePrevious={handlePreviousEpisode}
+              goTo={goTo}
             />
           </Route>
           <Route path={characterPath}>

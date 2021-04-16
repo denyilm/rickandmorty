@@ -35,7 +35,7 @@ const Character = (props) => {
                         borderRadius: '100%' }} size={27}/>}
               </span>
             </div>
-            <span id='char-name-span'>{props.character.name}</span>
+            <span id='char-name-span' title='character name'>{props.character.name}</span>
             <div className='char-info-container'>
               <div className='char-info'>
                 <span className='char-info-icon-container' title='species'>

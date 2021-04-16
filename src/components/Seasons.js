@@ -16,19 +16,19 @@ const Seasons = (props) => {
             <span style={{ color: 'black' }}>{'> '}</span>
             <span id='seasons-header'>{' Seasons '}</span>
           </div>
-          <div className='season-link-container'>
+          <div className='season-link-container' title='Season 01'>
             <span className='season-pointer'>{'> '}</span>
             <Link className='season-link' to='/seasons/1'>Season 01</Link>
           </div>
-          <div className='season-link-container'>
+          <div className='season-link-container' title='Season 02'>
             <span className='season-pointer'>{'> '}</span>
             <Link className='season-link' to='/seasons/2'>Season 02</Link>
           </div>
-          <div className='season-link-container'>
+          <div className='season-link-container' title='Season 03'>
             <span className='season-pointer'>{'> '}</span>
             <Link className='season-link' to='/seasons/3'>Season 03</Link>
           </div>
-          <div className='season-link-container'>
+          <div className='season-link-container' title='Season 04'>
             <span className='season-pointer'>{'> '}</span>
             <Link className='season-link' to='/seasons/4'>Season 04</Link>
           </div>
