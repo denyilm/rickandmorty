@@ -4,7 +4,7 @@
 
 git clone https://github.com/denyilm/rickandmorty.git
 
-###remove .git from the local directory
+### remove .git from the local directory
 
 ### run from the app's directory:
 
@@ -14,7 +14,7 @@ npm install
 
 npm start
 
-## Then you can see the app running @ http://localhost:3000
+### Then you can see the app running @ http://localhost:3000
 
 # Packages
 
