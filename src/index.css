@@ -445,7 +445,7 @@ S-Character
 }
 
 .char-info-container{
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   width: auto;
@@ -470,6 +470,13 @@ S-Character
   flex-direction: column;
   justify-content: center;
   margin-right: 10px;
+}
+
+#char-main-season-container{
+  margin-top: 10px;
+  border-top: solid 1px lightgreen;
+  width: 315px;
+  font-size: 12px;
 }
 /*
 E-Character

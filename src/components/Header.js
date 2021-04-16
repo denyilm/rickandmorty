@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { IoEarth } from 'react-icons/io5'
 
 const Header = (props) => {

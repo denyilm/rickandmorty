@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import { BsFillCircleFill } from 'react-icons/bs'
 import { GiAlienBug } from 'react-icons/gi'
 import { IoHomeSharp, IoMaleFemale, IoPlanetSharp } from 'react-icons/io5'
+import CharEpisodes from './CharEpisodes'
 
 const Character = (props) => {
 
@@ -19,7 +19,7 @@ const Character = (props) => {
               <div id='char-img-container'>
                 <img id='char-img' src={props.character.image}></img>
               </div>
-              <span id='char-status-span' title={`Status: ${props.character.status}`}>
+              <span id='char-status-span' title={`status: ${props.character.status}`}>
                 {props.character.status !== 'unknown'
                   ?
                   <BsFillCircleFill
@@ -70,6 +70,12 @@ const Character = (props) => {
                 </span>
               </div>
             </div>
+            { props.episodes
+              ?
+              <CharEpisodes episodes={props.episodes.sort((a,b) => a.id - b.id)} pick={props.pickEpisode}/>
+              :
+              null
+            }
           </div>
       }
     </div>

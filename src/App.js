@@ -30,6 +30,7 @@ const App = () => {
   const [characterPath, setCharacterPath] = useState('/character')
   const [episode, setEpisode] = useState({})
   const [character, setCharacter] = useState({})
+  const [charEpisodes, setCharEpisodes] = useState([])
   const [quote, setQuote] = useState({})
   const [showHeaderLinks, setShowHeaderLinks] = useState(false)
   const [episodesFetched, setEpisodesFetched] = useState(false)
@@ -41,6 +42,9 @@ const App = () => {
     event.preventDefault()
     if(history.location.pathname.includes('episode/')){
       setEpisodePath(history.location.pathname)
+    }
+    if(history.location.pathname.includes('character')){
+      setCharacterPath(history.location.pathname)
     }
   })
   //
@@ -101,8 +105,16 @@ const App = () => {
     if(history.location.pathname.includes('character')){
       fetchObj(`https://rickandmortyapi.com/api/${history.location.pathname}`)
         .then(data => {
-          setCharacterPath(history.location.pathname)
+          let charEpisodes = []
+          data.episode.forEach(url => {
+            fetchObj(url)
+              .then(episode => {
+                charEpisodes.push(episode)
+              })
+          })
+          setCharEpisodes(charEpisodes)
           setCharacter(data)
+          setCharacterPath(history.location.pathname)
         })
     }
   },[episodePath])
@@ -135,11 +147,12 @@ const App = () => {
     let pickedSpan = event.target.id
     let path = pickedSpan.split('/').slice(4,6).join('/')
     setEpisodePath(`/${path}`)
-    history.push(`/${path}`)
     fetchObj(pickedSpan)
       .then(res => {
         setEpisodeId(res.id)
-        setEpisode(res)})
+        setEpisode(res)
+        history.push(`/${path}`)
+      })
   }
   //
 
@@ -149,9 +162,12 @@ const App = () => {
     let pickedSpan = event.target.id
     let path = pickedSpan.split('/').slice(4,6).join('/')
     setCharacterPath(`/${path}`)
-    history.push(`/${path}`)
     fetchObj(pickedSpan)
-      .then(res => setCharacter(res))
+      .then(res => {
+        setCharacter(res)
+        setCharEpisodes(episodes.filter(episode => episode.characters.includes(res.url)))
+        history.push(`/${path}`)
+      })
   }
   //
 
@@ -233,7 +249,7 @@ const App = () => {
             />
           </Route>
           <Route path={characterPath}>
-            <Character character={character}/>
+            <Character character={character} episodes={charEpisodes} pickEpisode={pickEpisode}/>
           </Route>
           <Route path='/'>
             <Home
